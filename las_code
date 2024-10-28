@@ -1,0 +1,25 @@
+import requests
+import api_keys
+import json
+
+my_token = api_keys.genius_key
+
+def main():
+    term = input("song: ")
+    find_song(term)
+
+def find_song(search_term):
+    songs_found = []
+    genius_search_url = f"http://api.genius.com/search?q={search_term}&access_token={my_token}"
+    response = requests.get(genius_search_url)
+    json_data = response.json()
+    print(json.dumps(response.json(), indent=2))
+    hits = json_data["response"]["hits"]
+    for hit in enumerate(hits[:5]):
+        song = hit["result"]["full_title"]
+        print(song)
+    return songs_found
+
+
+if __name__ == "__main__":
+    main()
